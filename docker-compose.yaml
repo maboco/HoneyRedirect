@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - ./Nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - honey_redirect
+    depends_on:
+      - app
+
+  app:
+    build: ./App
+    expose:
+      - 5000
+    networks:
+      - honey_redirect
+    env_file:
+      - data_db.env
+    depends_on:
+      - db
+  
+  db:
+    build: ./Database
+    ports:
+      - 5432:5432
+    env_file:
+      - data_db.env
+    networks:
+      - honey_redirect
+
+networks:
+  honey_redirect:
+    driver: bridge

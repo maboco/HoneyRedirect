@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        var resolution = window.screen.width + "x" + window.screen.height;
+        var ppi = window.devicePixelRatio;
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/getdata", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify({ "resolution": resolution, "ppi": ppi }));
+
+        window.location.replace("http://www.google.es")
+    </script>
+</head>
+<body>
+</body>
+</html>
