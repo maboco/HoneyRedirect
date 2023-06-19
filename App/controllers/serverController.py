@@ -6,8 +6,11 @@ from datetime import datetime
 from models.dbManage import PostgresSql
 
 interceptuser = Blueprint("interceptUser", __name__)
+
+
 def interceptUser():
     return render_template("index.html")
+
 
 def getData():
     dataClient = request.get_json()
@@ -24,8 +27,8 @@ def getData():
         "user_agent": str(user_agent),
         "accept_languages": str(accept_languages),
         "resolution": str(resolution),
-        "ppi" : str(ppi),
-        "local_time": str(local_time)
+        "ppi": str(ppi),
+        "local_time": str(local_time),
     }
 
     PostgresSql().create(data)
