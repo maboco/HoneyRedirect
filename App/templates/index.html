@@ -2,15 +2,47 @@
 <html>
 <head>
     <script>
-        var resolution = window.screen.width + "x" + window.screen.height;
-        var ppi = window.devicePixelRatio;
+        function getUserAgent() {
+          return navigator.userAgent;
+        }
 
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/getdata", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(JSON.stringify({ "resolution": resolution, "ppi": ppi }));
+        function getPreferredLanguages() {
+          return navigator.languages;
+        }
 
-        window.location.replace("http://www.google.es")
+        function getScreenResolution() {
+          return {
+            width: window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth,
+            height: window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+          };
+        }
+
+        function getPixelDensity() {
+          return window.devicePixelRatio;
+        }
+
+        function getLocalTime() {
+          return new Date().toLocaleString();
+        }
+
+        function Operations() {
+            const data = {
+                userAgent: getUserAgent(),
+                preferredLanguages: getPreferredLanguages(),
+                screenResolution: getScreenResolution(),
+                pixelDensity: getPixelDensity(),
+                localTime: getLocalTime()
+            };
+        
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", "/getdata", true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send(JSON.stringify(data));
+
+            window.location.replace("http://www.google.es");
+        }
+
+        Operations();
     </script>
 </head>
 <body>
