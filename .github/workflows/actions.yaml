@@ -1,0 +1,48 @@
+name: Security Scans
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    name: build
+    permissions:
+       contents: read 
+       security-events: write 
+       actions: read 
+    runs-on: "ubuntu-latest"
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.11.3
+            uses: actions/setup-python@v3
+            with:
+              python-version: ${{ matrix.python-version }}
+          - name: Install dependencies
+            run: |
+              python -m pip install --upgrade pip
+              pip install pylint
+          - name: Analysing the code with pylint
+            run: |
+              pylint $(git ls-files '*.py')
+
+      - name: Run static analysis
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          security-checks: 'vuln,secret,config'
+          ignore-unfixed: true
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-results.sarif'
+          category: 'code'
