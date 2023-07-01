@@ -14,13 +14,12 @@ class PostgresSql:
         self.connection = psycopg2.connect(
             host="db", port=5432, database=database, user=user, password=password
         )
-
         self.cursor = self.connection.cursor()
 
     def create(self, data):
         sql = """
-        INSERT INTO test (ip_address, user_agent, accept_languages, resolution, ppi, local_time)
-        VALUES (%(ip_address)s, %(user_agent)s, %(accept_languages)s, %(resolution)s, %(ppi)s, %(local_time)s)
+        INSERT INTO test (ip_address, user_agent, accept_languages, resolution, ppi, server_time, local_time, cookie)
+        VALUES (%(ip_address)s, %(user_agent)s, %(accept_languages)s, %(resolution)s, %(ppi)s, %(server_time)s, %(local_time)s, %(cookie)s)
         """
         self.cursor.execute(sql, data)
         self.connection.commit()
