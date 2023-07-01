@@ -5,5 +5,7 @@ CREATE TABLE test (
     accept_languages VARCHAR(255),
     resolution VARCHAR(255),
     ppi VARCHAR(255),
-    local_time TIMESTAMP
+    server_time TIMESTAMP,
+    local_time TIMESTAMP,
+    cookie VARCHAR(255)
 );
