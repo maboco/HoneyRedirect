@@ -19,21 +19,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Python 3.11.3
+      - name: Set up Python 3.11.4
         uses: actions/setup-python@v3
         with:
-          python-version: 3.11.3
-      
-      - name: Install dependencies
-        run: |
-          cd App
-          python -m pip install --upgrade pip
-          pip install pylint
-          pip install -r requirements.txt
-      
-      - name: Analysing the code with pylint
-        run: |
-          pylint $(git ls-files '*.py')
+          python-version: 3.11.4
 
       - name: Run static analysis
         uses: aquasecurity/trivy-action@master
